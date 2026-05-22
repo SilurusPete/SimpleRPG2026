@@ -11,7 +11,7 @@ namespace Engine.ViewModels
     {
         public Player CurrentPlayer { get; set; }
 
-        public GameSession() 
+        public GameSession()
         {
             CurrentPlayer = new Player();
             CurrentPlayer.Nickname = "Pete";
