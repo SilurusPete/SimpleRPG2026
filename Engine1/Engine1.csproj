@@ -82,9 +82,9 @@
     <Resource Include="Images\Locations\WitchHut.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Monsters\GiantSpider.png" />
-    <Content Include="Images\Monsters\Rat.png" />
-    <Content Include="Images\Monsters\Snake.png" />
+    <Resource Include="Images\Monsters\GiantSpider.png" />
+    <Resource Include="Images\Monsters\Rat.png" />
+    <Resource Include="Images\Monsters\Snake.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
