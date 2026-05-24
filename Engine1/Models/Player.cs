@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Engine.Models
+namespace Engine1.Models
 {
     public class Player : INotifyPropertyChanged
     {
@@ -26,7 +26,6 @@ namespace Engine.Models
                 OnPropertyChanged("Nickname");
             }
         }
-
         public string CharacterClass
         {
             get { return _CharacterClass; }
@@ -36,7 +35,6 @@ namespace Engine.Models
                 OnPropertyChanged("CharacterClass");
             }
         }
-
         public int HP
         {
             get { return _HP; }
@@ -64,7 +62,6 @@ namespace Engine.Models
                 OnPropertyChanged("Level");
             }
         }
-
         public int Gold
         {
             get { return _Gold; }
