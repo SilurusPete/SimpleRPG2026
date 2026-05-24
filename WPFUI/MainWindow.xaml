@@ -129,7 +129,31 @@
             </Border>
         </Grid>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Quests" Background="BurlyWood"></Label>
+        <Grid Grid.Row="2" Grid.Column="0" Background="BurlyWood">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Quests" Background="BurlyWood"/>
+
+            <Grid Grid.Row="1" Grid.Column="0" Background="BurlyWood">
+                <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"
+                                                Binding="{Binding PlayerQuest.Name}"
+                                                Width="*"/>
+                        <DataGridTextColumn Header="Done?"
+                                                Binding="{Binding IsCompleted}"
+                                                Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            
+        </Grid>
+        
         
         <!-- Controls -->
         <Grid Grid.Row="2" Grid.Column="1" Background="Lavender">
