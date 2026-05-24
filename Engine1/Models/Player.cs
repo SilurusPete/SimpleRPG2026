@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Engine;
+using Engine.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -8,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Engine1.Models
 {
-    public class Player : INotifyPropertyChanged
+    public class Player : BaseNotificationClass
     {
         private string _Nickname;
         private string _CharacterClass;
@@ -23,7 +26,7 @@ namespace Engine1.Models
             set
             {
                 _Nickname = value;
-                OnPropertyChanged("Nickname");
+                OnPropertyChanged(nameof(Nickname));
             }
         }
         public string CharacterClass
@@ -32,7 +35,7 @@ namespace Engine1.Models
             set
             {
                 _CharacterClass = value;
-                OnPropertyChanged("CharacterClass");
+                OnPropertyChanged(nameof(CharacterClass));
             }
         }
         public int HP
@@ -41,7 +44,7 @@ namespace Engine1.Models
             set
             {
                 _HP = value;
-                OnPropertyChanged("HP");
+                OnPropertyChanged(nameof(HP));
             }
         }
         public int Exp
@@ -50,7 +53,7 @@ namespace Engine1.Models
             set 
             {
                 _Exp = value;
-                OnPropertyChanged("Exp");
+                OnPropertyChanged(nameof(Exp));
             }
         }
         public int Level
@@ -59,7 +62,7 @@ namespace Engine1.Models
             set
             {
                 _Level = value;
-                OnPropertyChanged("Level");
+                OnPropertyChanged(nameof(Level));
             }
         }
         public int Gold
@@ -68,16 +71,17 @@ namespace Engine1.Models
             set
             {
                 _Gold = value;
-                OnPropertyChanged("Gold");
+                OnPropertyChanged(nameof(Gold));
             }
         }
 
+        public ObservableCollection<GameItem> Inventory { get; set; }
+        public ObservableCollection<QuestStatus> Quests { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        public Player()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Inventory = new ObservableCollection<GameItem>();
+            Quests = new ObservableCollection<QuestStatus>();
         }
     }
 }

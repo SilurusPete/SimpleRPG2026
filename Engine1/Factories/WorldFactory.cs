@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Engine.Factories;
+using Engine1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Engine1.Models;
 
 namespace Engine1.Factories
 {
-    internal class WorldFactory
+    internal static class WorldFactory
     {
-        internal World CreateWorld()
+        internal static World CreateWorld()
         {
             World newWorld = new World();
 
@@ -72,6 +73,7 @@ namespace Engine1.Factories
             newWorld.AddLocation(-2, 1, "Herbalist's hut",
                 ".",
                 "/Engine;component/Images/Locations/Herbalist'sHut.png");
+            newWorld.LocationAt(-2, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
 
             newWorld.AddLocation(0, 2, "Weapon blacksmith's house",
                 ".",
