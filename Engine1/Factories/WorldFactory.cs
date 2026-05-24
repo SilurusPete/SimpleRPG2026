@@ -21,6 +21,8 @@ namespace Engine1.Factories
             newWorld.AddLocation(-2, -1, "Meadows",
                 ".",
                 "/Engine;component/Images/Locations/Meadows.png");
+            newWorld.LocationAt(-2, -1).AddMonster(2, 80);
+            newWorld.LocationAt(-2, -1).AddMonster(1, 20);
 
             newWorld.AddLocation(-1, -1, "Guard Camp",
                 ".",
@@ -33,10 +35,12 @@ namespace Engine1.Factories
             newWorld.AddLocation(1, -1, "Dense forest with a barely visible path in sight",
                 ".",
                 "/Engine;component/Images/Locations/BarelyVisiblePath.png");
+            newWorld.LocationAt(1, -1).AddMonster(3, 100);
 
             newWorld.AddLocation(-1, 0, "Some local houses",
                 ".",
                 "/Engine;component/Images/Locations/InhabitedHouses.png");
+            newWorld.LocationAt(-1, 0).AddMonster(2, 20);
 
             newWorld.AddLocation(0, 0, "Church",
                 "The place you first appeared at with a quest in mind to bring peace in this world",
@@ -65,6 +69,7 @@ namespace Engine1.Factories
             newWorld.AddLocation(2, 1, "Farmer's field",
                 ".",
                 "/Engine;component/Images/Locations/Farmer'sField.png");
+            newWorld.LocationAt(-2, -1).AddMonster(2, 50);
 
             newWorld.AddLocation(2, 0, "Strange hut at the outskirts",
                 ".",
@@ -82,6 +87,7 @@ namespace Engine1.Factories
             newWorld.AddLocation(-3, 1, "Herbs garden",
                 ".",
                 "/Engine;component/Images/Locations/HerbsGarden.png");
+            newWorld.LocationAt(-3, 1).AddMonster(1, 100);
 
             return newWorld;
         }
