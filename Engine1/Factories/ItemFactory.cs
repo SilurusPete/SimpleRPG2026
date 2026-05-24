@@ -9,7 +9,7 @@ namespace Engine.Factories
 {
     public static class ItemFactory
     {
-        private static List<GameItem> _standardGameItems;
+        private static readonly List<GameItem> _standardGameItems = new List<GameItem>();
 
         static ItemFactory()
         {
@@ -21,8 +21,8 @@ namespace Engine.Factories
             _standardGameItems.Add(new GameItem(9002, "Snakeskin", 2));
             _standardGameItems.Add(new GameItem(9003, "Rat tail", 1));
             _standardGameItems.Add(new GameItem(9004, "Rat fur", 2));
-            _standardGameItems.Add(new GameItem(9005, "Spider fang", 1));
-            _standardGameItems.Add(new GameItem(9006, "Spider silk", 2));
+            _standardGameItems.Add(new GameItem(9005, "Spider fang", 6));
+            _standardGameItems.Add(new GameItem(9006, "Spider silk", 4));
 
         }
 
@@ -32,6 +32,11 @@ namespace Engine.Factories
 
             if (standardItem != null)
             {
+                if (standardItem is Weapon)
+                {
+                    return (standardItem as Weapon).Clone();
+                }
+
                 return standardItem.Clone();
             }
             return null;

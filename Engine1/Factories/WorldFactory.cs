@@ -1,10 +1,5 @@
 ﻿using Engine.Factories;
 using Engine1.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine1.Factories
 {
@@ -16,77 +11,77 @@ namespace Engine1.Factories
 
             newWorld.AddLocation(-3, -1, "Bandit Camp",
                 ".",
-                "/Engine;component/Images/Locations/BanditCamp.png");
+                "BanditCamp.png");
 
             newWorld.AddLocation(-2, -1, "Meadows",
                 ".",
-                "/Engine;component/Images/Locations/Meadows.png");
+                "Meadows.png");
             newWorld.LocationAt(-2, -1).AddMonster(2, 80);
             newWorld.LocationAt(-2, -1).AddMonster(1, 20);
 
             newWorld.AddLocation(-1, -1, "Guard Camp",
                 ".",
-                "/Engine;component/Images/Locations/Guard'sOutpost.png");
+                "Guard'sOutpost.png");
 
             newWorld.AddLocation(0, -1, "Graveyard",
                 ".",
-                "/Engine;component/Images/Locations/Graveyard.png");
+                "Graveyard.png");
 
             newWorld.AddLocation(1, -1, "Dense forest with a barely visible path in sight",
                 ".",
-                "/Engine;component/Images/Locations/BarelyVisiblePath.png");
+                "BarelyVisiblePath.png");
             newWorld.LocationAt(1, -1).AddMonster(3, 100);
 
             newWorld.AddLocation(-1, 0, "Some local houses",
                 ".",
-                "/Engine;component/Images/Locations/InhabitedHouses.png");
+                "InhabitedHouses.png");
             newWorld.LocationAt(-1, 0).AddMonster(2, 20);
 
             newWorld.AddLocation(0, 0, "Church",
                 "The place you first appeared at with a quest in mind to bring peace in this world",
-                "/Engine;component/Images/Locations/Church.png");
+                "Church.png");
 
             newWorld.AddLocation(2, 2, "Barn",
                 ".",
-                "/Engine;component/Images/Locations/Barn.png");
+                "Barn.png");
 
             newWorld.AddLocation(2, -1, "Weird clearing in the forest",
                 ".",
-                "/Engine;component/Images/Locations/Cauldron.png");
+                "Cauldron.png");
 
             newWorld.AddLocation(-1, 1, "Town Square",
                 ".",
-                "/Engine;component/Images/Locations/TownSquare.png");
+                "TownSquare.png");
 
             newWorld.AddLocation(0, 1, "Market",
                 ".",
-                "/Engine;component/Images/Locations/Marketplace.png");
+                "Marketplace.png");
 
             newWorld.AddLocation(1, 1, "Farmer's house",
                 ".",
-                "/Engine;component/Images/Locations/Farmer'sHouse.png");
+                "Farmer'sHouse.png");
 
             newWorld.AddLocation(2, 1, "Farmer's field",
                 ".",
-                "/Engine;component/Images/Locations/Farmer'sField.png");
+                "Farmer'sField.png");
             newWorld.LocationAt(-2, -1).AddMonster(2, 50);
 
             newWorld.AddLocation(2, 0, "Strange hut at the outskirts",
                 ".",
-                "/Engine;component/Images/Locations/WitchHut.png");
+                "WitchHut.png");
 
             newWorld.AddLocation(-2, 1, "Herbalist's hut",
                 ".",
-                "/Engine;component/Images/Locations/Herbalist'sHut.png");
+                "Herbalist'sHut.png");
             newWorld.LocationAt(-2, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
 
             newWorld.AddLocation(0, 2, "Weapon blacksmith's house",
                 ".",
-                "/Engine;component/Images/Locations/WeaponBlacksmith'sHouse.png");
+                "WeaponBlacksmith'sHouse.png");
 
             newWorld.AddLocation(-3, 1, "Herbs garden",
                 ".",
-                "/Engine;component/Images/Locations/HerbsGarden.png");
+                "HerbsGarden.png");
             newWorld.LocationAt(-3, 1).AddMonster(1, 100);
 
             return newWorld;
