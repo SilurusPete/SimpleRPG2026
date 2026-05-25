@@ -73,13 +73,17 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="Inventory:"/>
 
                 <Grid Grid.Row="1" Grid.Column="0" Background="GreenYellow">
-                    <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
+                    <DataGrid ItemsSource="{Binding CurrentPlayer.GroupedInventory}"
                               AutoGenerateColumns="False"
                               HeadersVisibility="Column">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Description"
-                                                Binding="{Binding Name}"
+                                                Binding="{Binding Item.Name}"
                                                 Width="*"/>
+                            <DataGridTextColumn Header="Qty"
+                                                Binding="{Binding Quantity}"
+                                                IsReadOnly="True"
+                                                Width="Auto"/>
                             <DataGridTextColumn Header="Price"
                                                 Binding="{Binding Price}"
                                                 Width="Auto"/>
@@ -183,7 +187,7 @@
 
             </Border>
         </Grid>
-
+        <!--Quest-->
         <Grid Grid.Row="2" Grid.Column="0" Background="BurlyWood">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

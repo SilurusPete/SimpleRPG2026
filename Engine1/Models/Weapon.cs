@@ -6,7 +6,7 @@
         public int CriticalHitDamage { get; set; }
 
         public Weapon(int itemTypeID, string name, int price, int damage, int criticalHitDamage)
-            : base(itemTypeID, name, price)
+            : base(itemTypeID, name, price, true)
         {
             Damage = damage;
             CriticalHitDamage = criticalHitDamage;
