@@ -56,10 +56,12 @@ namespace Engine1.Factories
             newWorld.AddLocation(0, 1, "Market",
                 ".",
                 "Marketplace.png");
+            newWorld.LocationAt(0, 1).TraderHere = TraderFactory.GetTraderByName("Susan");
 
             newWorld.AddLocation(1, 1, "Farmer's house",
                 ".",
                 "Farmer'sHouse.png");
+            newWorld.LocationAt(1, 1).TraderHere = TraderFactory.GetTraderByName("Farmer Ted");
 
             newWorld.AddLocation(2, 1, "Farmer's field",
                 ".",
@@ -74,6 +76,7 @@ namespace Engine1.Factories
                 ".",
                 "Herbalist'sHut.png");
             newWorld.LocationAt(-2, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
+            newWorld.LocationAt(-2, 1).TraderHere = TraderFactory.GetTraderByName("Pete the Herbalist");
 
             newWorld.AddLocation(0, 2, "Weapon blacksmith's house",
                 ".",

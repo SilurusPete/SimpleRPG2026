@@ -5,11 +5,7 @@ using Engine.Models;
 using Engine1.Factories;
 using Engine1.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine1.ViewModels
 {
@@ -21,6 +17,7 @@ namespace Engine1.ViewModels
 
         private Location _currentLocation;
         private Monster _currentMonster;
+        private Trader _currentTrader;
 
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
@@ -40,6 +37,8 @@ namespace Engine1.ViewModels
                 CompleteQuestsAtLocation();
                 GivePlayerQuestsAtLocation();
                 GetMonsterAtLocation();
+
+                CurrentTrader = CurrentLocation.TraderHere;
             }
         }
 
@@ -61,6 +60,18 @@ namespace Engine1.ViewModels
             }
         }
 
+        public Trader CurrentTrader
+        {
+            get { return _currentTrader; }
+            set
+            {
+                _currentTrader = value;
+
+                OnPropertyChanged(nameof(CurrentTrader));
+                OnPropertyChanged(nameof(HasTrader));
+            }
+        }
+
         public Weapon CurrentWeapon { get; set; }
         public bool HasLocationToNorth =>
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
@@ -75,6 +86,7 @@ namespace Engine1.ViewModels
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasMonster => CurrentMonster != null;
+        public bool HasTrader => CurrentTrader != null;
 
         #endregion
 
