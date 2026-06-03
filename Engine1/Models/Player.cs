@@ -1,5 +1,6 @@
-﻿using Engine;
-using Engine.Models;
+﻿using Engine1;
+using Engine1.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace Engine1.Models
 {
     public class Player : LivingEntity
     {
+        #region Properties
 
         private string _CharacterClass;
         private int _Exp;
-        private int _Level;
 
         public string CharacterClass
         {
@@ -19,30 +20,28 @@ namespace Engine1.Models
             set
             {
                 _CharacterClass = value;
-                OnPropertyChanged(nameof(CharacterClass));
+                OnPropertyChanged();
             }
         }
         
         public int Exp
         {
             get { return _Exp; }
-            set 
+            private set
             {
                 _Exp = value;
-                OnPropertyChanged(nameof(Exp));
-            }
-        }
-        public int Level
-        {
-            get { return _Level; }
-            set
-            {
-                _Level = value;
-                OnPropertyChanged(nameof(Level));
+
+                OnPropertyChanged();
+
+                SetLevelAndMaximumHitPoints();
             }
         }
 
-        public ObservableCollection<QuestStatus> Quests { get; set; }
+        public ObservableCollection<QuestStatus> Quests { get; }
+
+        #endregion
+
+        public event EventHandler OnLeveledUp;
 
         public Player(string name, string characterClass, int experiencePoints,
                       int maximumHitPoints, int currentHitPoints, int gold) :
@@ -65,6 +64,24 @@ namespace Engine1.Models
             }
 
             return true;
+        }
+        public void AddExperience(int experiencePoints)
+        {
+            Exp += experiencePoints;
+        }
+
+        private void SetLevelAndMaximumHitPoints()
+        {
+            int originalLevel = Level;
+
+            Level = (Exp / 100) + 1;
+
+            if (Level != originalLevel)
+            {
+                MaximumHitPoints = Level * 10;
+
+                OnLeveledUp?.Invoke(this, System.EventArgs.Empty);
+            }
         }
     }
 }

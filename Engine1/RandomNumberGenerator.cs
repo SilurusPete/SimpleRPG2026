@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Engine
+namespace Engine1
 {
     // This is the more complex version
     public static class RandomNumberGenerator

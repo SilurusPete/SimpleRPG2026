@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Models
+namespace Engine1.Models
 {
     public class ItemQuantity
     {
-        public int ItemID { get; set; }
-        public int Quantity { get; set; }
+        public int ItemID { get; }
+        public int Quantity { get; }
 
         public ItemQuantity(int itemID, int quantity)
         {

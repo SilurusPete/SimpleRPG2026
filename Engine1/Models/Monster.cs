@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Engine.Models
+namespace Engine1.Models
 {
     public class Monster : LivingEntity
     {
-        public string ImageName { get; set; }
-        public int MinimumDamage { get; set; }
-        public int MaximumDamage { get; set; }
+        public string ImageName { get; }
+        public int MinimumDamage { get; }
+        public int MaximumDamage { get; }
 
-        public int RewardExperiencePoints { get; private set; }
+        public int RewardExperiencePoints { get; }
 
         public Monster(string name, string imageName,
                        int maximumHitPoints, int currentHitPoints,
@@ -16,7 +16,7 @@ namespace Engine.Models
                        int rewardExperiencePoints, int gold) :
             base(name, maximumHitPoints, currentHitPoints, gold)
         {
-            ImageName = $"/Engine;component/Images/Monsters/{imageName}";
+            ImageName = $"/Engine1;component/Images/Monsters/{imageName}";
             MinimumDamage = minimumDamage;
             MaximumDamage = maxmumDamage;
             RewardExperiencePoints = rewardExperiencePoints;

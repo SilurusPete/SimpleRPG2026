@@ -1,7 +1,7 @@
-﻿using Engine;
-using Engine.EventArgs;
-using Engine.Factories;
-using Engine.Models;
+﻿using Engine1;
+using Engine1.EventArgs;
+using Engine1.Factories;
+using Engine1.Models;
 using Engine1.Factories;
 using Engine1.Models;
 using System;
@@ -20,7 +20,7 @@ namespace Engine1.ViewModels
         private Monster _currentMonster;
         private Trader _currentTrader;
 
-        public World CurrentWorld { get; set; }
+        public World CurrentWorld { get; }
         public Player CurrentPlayer {
 
             get { return _currentPlayer; }
@@ -28,6 +28,7 @@ namespace Engine1.ViewModels
             {
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                 }
 
@@ -35,6 +36,7 @@ namespace Engine1.ViewModels
 
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                 }
             }
@@ -46,7 +48,7 @@ namespace Engine1.ViewModels
             {
                 _currentLocation = value;
 
-                OnPropertyChanged(nameof(CurrentLocation));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasLocationToNorth));
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
@@ -80,7 +82,7 @@ namespace Engine1.ViewModels
                     RaiseMessage($"You see a {CurrentMonster.Name} here!");
                 }
 
-                OnPropertyChanged(nameof(CurrentMonster));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasMonster));
 
                 if (CurrentMonster != null)
@@ -98,7 +100,7 @@ namespace Engine1.ViewModels
             {
                 _currentTrader = value;
 
-                OnPropertyChanged(nameof(CurrentTrader));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasTrader));
             }
         }
@@ -185,19 +187,19 @@ namespace Engine1.ViewModels
 
                         RaiseMessage("");
                         RaiseMessage($"You completed the '{quest.Name}' quest");
-
-                        CurrentPlayer.Exp += quest.RewardExp;
                         RaiseMessage($"You receive {quest.RewardExp} experience points");
+                        CurrentPlayer.AddExperience(quest.RewardExp);
 
-                        CurrentPlayer.ReceiveGold(quest.RewardGold);
                         RaiseMessage($"You receive {quest.RewardGold} gold");
+                        CurrentPlayer.ReceiveGold(quest.RewardGold);
 
                         foreach (ItemQuantity itemQuantity in quest.RewardItems)
                         {
                             GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
 
-                            CurrentPlayer.AddItemToInventory(rewardItem);
                             RaiseMessage($"You receive a {rewardItem.Name}");
+                            CurrentPlayer.AddItemToInventory(rewardItem);
+                            
                         }
 
                         questToComplete.IsCompleted = true;
@@ -295,7 +297,7 @@ namespace Engine1.ViewModels
             RaiseMessage($"You defeated the {CurrentMonster.Name}!");
 
             RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points.");
-            CurrentPlayer.Exp += CurrentMonster.RewardExperiencePoints;
+            CurrentPlayer.AddExperience(CurrentMonster.RewardExperiencePoints);
 
             RaiseMessage($"You receive {CurrentMonster.Gold} gold.");
             CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
@@ -305,6 +307,10 @@ namespace Engine1.ViewModels
                 RaiseMessage($"You receive one {gameItem.Name}.");
                 CurrentPlayer.AddItemToInventory(gameItem);
             }
+        }
+        private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs)
+        {
+            RaiseMessage($"You are now level {CurrentPlayer.Level}!");
         }
 
         private void RaiseMessage(string message)

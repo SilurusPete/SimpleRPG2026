@@ -1,4 +1,4 @@
-﻿namespace Engine.EventArgs
+﻿namespace Engine1.EventArgs
 {
     public class GameMessageEventArgs : System.EventArgs
     {
