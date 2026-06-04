@@ -26,7 +26,7 @@ namespace Engine.Models
 
         public void AddItemToLootTable(int id, int percentage)
         {
-            
+
             _lootTable.RemoveAll(ip => ip.ID == id);
 
             _lootTable.Add(new ItemPercentage(id, percentage));

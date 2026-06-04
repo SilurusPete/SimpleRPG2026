@@ -68,7 +68,7 @@
             <Grid Grid.Row="1" Grid.Column="0" Background="GreenYellow">
                 <TabControl x:Name="PlayerDataTabControl">
                     <TabItem x:Name="InventoryTabItem" Header="Inventory">
-                        <DataGrid ItemsSource="{Binding CurrentPlayer.GroupedInventory}"
+                        <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory.GroupedInventory}"
                               AutoGenerateColumns="False"
                               HeadersVisibility="Column">
                             <DataGrid.Columns>
@@ -93,13 +93,20 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name"
                                                     Binding="{Binding Name, Mode=OneWay}"
-                                                    Width="*"/>
+                                                    Width="*">      
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="ToolTip"
+                                                    Value="{Binding ToolTipContents}"/>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
                                 <DataGridTemplateColumn MinWidth="75">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Click="OnClick_Craft"
                                                     Width="55"
-                                                    Content="Craft"/>
+                                                    Content="Craft"/>   
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -216,15 +223,22 @@
 
             <Grid Grid.Row="1" Grid.Column="0" Background="BurlyWood">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
-                              AutoGenerateColumns="False"
-                              HeadersVisibility="Column">
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name"
-                                                Binding="{Binding PlayerQuest.Name, Mode=OneWay}"
-                                                Width="*"/>
+                                            Binding="{Binding PlayerQuest.Name, Mode=OneWay}"
+                                            Width="*">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="ToolTip"
+                                            Value="{Binding PlayerQuest.ToolTipContents}"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="Done?"
-                                                Binding="{Binding IsCompleted, Mode=OneWay}"
-                                                Width="Auto"/>
+                                            Binding="{Binding IsCompleted, Mode=OneWay}"
+                                            Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -261,7 +275,7 @@
 
                 <ComboBox Grid.Row="0" Grid.Column="0"
                           Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}"
-                          ItemsSource="{Binding CurrentPlayer.Weapons}"
+                          ItemsSource="{Binding CurrentPlayer.Inventory.Weapons}"
                           SelectedItem="{Binding CurrentPlayer.CurrentWeapon}"
                           DisplayMemberPath="Name"
                           SelectedValuePath="ID"/>
@@ -272,13 +286,13 @@
                         Click="OnClick_AttackMonster"/>
 
                 <ComboBox Grid.Row="1" Grid.Column="0"
-                          Visibility="{Binding CurrentPlayer.HasConsumable, Converter={StaticResource BooleanToVisibility}}"
-                          ItemsSource="{Binding CurrentPlayer.Consumables}"
+                          Visibility="{Binding CurrentPlayer.Inventory.HasConsumable, Converter={StaticResource BooleanToVisibility}}"
+                          ItemsSource="{Binding CurrentPlayer.Inventory.Consumables}"
                           SelectedItem="{Binding CurrentPlayer.CurrentConsumable}"
                           DisplayMemberPath="Name"/>
 
                 <Button Grid.Row="1" Grid.Column="2"
-                        Visibility="{Binding CurrentPlayer.HasConsumable, Converter={StaticResource BooleanToVisibility}}"
+                        Visibility="{Binding CurrentPlayer.Inventory.HasConsumable, Converter={StaticResource BooleanToVisibility}}"
                         Content="Use"
                         Click="OnClick_UseCurrentConsumable"/>
             </Grid>
