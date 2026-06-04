@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public class Player : LivingEntity
     {

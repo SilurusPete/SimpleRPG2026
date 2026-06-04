@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Engine1
+namespace Engine
 {
     public class BaseNotificationClass : INotifyPropertyChanged
     {

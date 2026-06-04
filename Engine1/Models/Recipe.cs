@@ -1,8 +1,8 @@
-﻿using Engine1.Models;
+﻿using Engine.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public class Recipe
     {

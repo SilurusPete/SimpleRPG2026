@@ -1,6 +1,6 @@
-﻿using Engine1.Models;
+﻿using Engine.Models;
 
-namespace Engine1.Factories
+namespace Engine.Factories
 {
     internal static class WorldFactory
     {

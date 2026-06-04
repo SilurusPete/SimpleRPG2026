@@ -1,4 +1,4 @@
-﻿namespace Engine1.Models
+﻿namespace Engine.Models
 {
     public class Trader : LivingEntity
     {

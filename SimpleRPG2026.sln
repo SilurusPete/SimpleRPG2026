@@ -5,7 +5,7 @@ VisualStudioVersion = 18.6.11822.322 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFUI", "WPFUI\WPFUI.csproj", "{5B8DFD68-0002-4A11-AE14-AAC7B3060788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine1", "Engine1\Engine1.csproj", "{B160BD28-72F1-49EB-835A-426CCB997307}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine1\Engine.csproj", "{B160BD28-72F1-49EB-835A-426CCB997307}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEngine", "TestEngine\TestEngine.csproj", "{360FE4F3-0D4F-4AE2-88B1-D2CA11149D66}"
 EndProject

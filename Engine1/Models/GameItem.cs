@@ -1,6 +1,6 @@
-﻿using Engine1.Actions;
+﻿using Engine.Actions;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public class GameItem
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public class World
     {

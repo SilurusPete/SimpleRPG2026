@@ -1,7 +1,7 @@
-﻿using Engine1.Models;
+﻿using Engine.Models;
 using System;
 
-namespace Engine1.Actions
+namespace Engine.Actions
 {
     public class AttackWithWeapon : BaseAction, IAction
     {

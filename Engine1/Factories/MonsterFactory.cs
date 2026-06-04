@@ -1,7 +1,7 @@
-﻿using Engine1.Models;
+﻿using Engine.Models;
 using System;
 
-namespace Engine1.Factories
+namespace Engine.Factories
 {
     public static class MonsterFactory
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public abstract class LivingEntity : BaseNotificationClass
     {

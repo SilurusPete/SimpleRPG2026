@@ -1,8 +1,8 @@
-﻿using Engine1.Factories;
+﻿using Engine.Factories;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
     public class Location
     {

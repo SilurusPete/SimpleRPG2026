@@ -1,10 +1,10 @@
-﻿using Engine1.EventArgs;
-using Engine1.Factories;
-using Engine1.Models;
+﻿using Engine.EventArgs;
+using Engine.Factories;
+using Engine.Models;
 using System;
 using System.Linq;
 
-namespace Engine1.ViewModels
+namespace Engine.ViewModels
 {
     public class GameSession : BaseNotificationClass
     {

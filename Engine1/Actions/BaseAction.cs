@@ -1,11 +1,7 @@
-﻿using Engine1.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Engine.Models;
 
-namespace Engine1.Actions
+namespace Engine.Actions
 {
     public abstract class BaseAction
     {
