@@ -3,6 +3,7 @@
 	<Weapons>
 		<Weapon ID="1001" Name="Pointy stick" Price="1" MinimumDamage="1" MaximumDamage="2"/>
 		<Weapon ID="1002" Name="Rusty sword" Price="5" MinimumDamage="1" MaximumDamage="3"/>
+		<Weapon ID="1003" Name="Good sword" Price="15" MinimumDamage="2" MaximumDamage="5"/>
 		<Weapon ID="1501" Name="Snake fang" Price="0" MinimumDamage="0" MaximumDamage="2"/>
 		<Weapon ID="1502" Name="Rat claw" Price="0" MinimumDamage="0" MaximumDamage="2"/>
 		<Weapon ID="1503" Name="Spider fang" Price="0" MinimumDamage="0" MaximumDamage="4"/>

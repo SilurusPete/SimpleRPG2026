@@ -22,7 +22,7 @@ namespace TestEngine.ViewModels
 
             gameSession.CurrentPlayer.TakeDamage(999);
 
-            Assert.AreEqual("Church", gameSession.CurrentLocation.Name);
+            Assert.AreEqual("Graveyard", gameSession.CurrentLocation.Name);
             Assert.AreEqual(gameSession.CurrentPlayer.Level * 10, gameSession.CurrentPlayer.CurrentHitPoints);
         }
     }

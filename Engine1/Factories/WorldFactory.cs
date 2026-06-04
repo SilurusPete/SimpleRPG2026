@@ -1,92 +1,99 @@
 ﻿using Engine.Models;
+using System.IO;
+using System.Xml;
+using Engine.Shared;
 
 namespace Engine.Factories
 {
     internal static class WorldFactory
     {
+        private const string GAME_DATA_FILENAME = ".\\GameData\\Locations.xml";
+
         internal static World CreateWorld()
         {
-            World newWorld = new World();
+            World world = new World();
+            if (File.Exists(GAME_DATA_FILENAME))
+            {
+                XmlDocument data = new XmlDocument();
+                data.LoadXml(File.ReadAllText(GAME_DATA_FILENAME));
 
-            newWorld.AddLocation(-3, -1, "Bandit Camp",
-                ".",
-                "BanditCamp.png");
+                string rootImagePath =
+                    data.SelectSingleNode("/Locations")
+                        .AttributeAsString("RootImagePath");
 
-            newWorld.AddLocation(-2, -1, "Meadows",
-                ".",
-                "Meadows.png");
-            newWorld.LocationAt(-2, -1).AddMonster(2, 80);
-            newWorld.LocationAt(-2, -1).AddMonster(1, 20);
+                LoadLocationsFromNodes(world,
+                                       rootImagePath,
+                                       data.SelectNodes("/Locations/Location"));
+            }
+            else
+            {
+                throw new FileNotFoundException($"Missing data file: {GAME_DATA_FILENAME}");
+            }
 
-            newWorld.AddLocation(-1, -1, "Guard Camp",
-                ".",
-                "Guard'sOutpost.png");
+            return world;
+        }
 
-            newWorld.AddLocation(0, -1, "Graveyard",
-                ".",
-                "Graveyard.png");
+        private static void LoadLocationsFromNodes(World world, string rootImagePath, XmlNodeList nodes)
+        {
+            if (nodes == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(1, -1, "Dense forest with a barely visible path in sight",
-                ".",
-                "BarelyVisiblePath.png");
-            newWorld.LocationAt(1, -1).AddMonster(3, 100);
+            foreach (XmlNode node in nodes)
+            {
+                Location location =
+                    new Location(node.AttributeAsInt("X"),
+                                 node.AttributeAsInt("Y"),
+                                 node.AttributeAsString("Name"),
+                                 node.SelectSingleNode("./Description")?.InnerText ?? "",
+                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}");
 
-            newWorld.AddLocation(-1, 0, "Some local houses",
-                ".",
-                "InhabitedHouses.png");
-            newWorld.LocationAt(-1, 0).AddMonster(2, 20);
+                AddMonsters(location, node.SelectNodes("./Monsters/Monster"));
+                AddQuests(location, node.SelectNodes("./Quests/Quest"));
+                AddTrader(location, node.SelectSingleNode("./Trader"));
 
-            newWorld.AddLocation(0, 0, "Church",
-                "The place you first appeared at with a quest in mind to bring peace in this world",
-                "Church.png");
+                world.AddLocation(location);
+            }
+        }
 
-            newWorld.AddLocation(2, 2, "Barn",
-                ".",
-                "Barn.png");
+        private static void AddMonsters(Location location, XmlNodeList monsters)
+        {
+            if (monsters == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(2, -1, "Weird clearing in the forest",
-                ".",
-                "Cauldron.png");
+            foreach (XmlNode monsterNode in monsters)
+            {
+                location.AddMonster(monsterNode.AttributeAsInt("ID"),
+                                    monsterNode.AttributeAsInt("Percent"));
+            }
+        }
 
-            newWorld.AddLocation(-1, 1, "Town Square",
-                ".",
-                "TownSquare.png");
+        private static void AddQuests(Location location, XmlNodeList quests)
+        {
+            if (quests == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(0, 1, "Market",
-                ".",
-                "Marketplace.png");
-            newWorld.LocationAt(0, 1).TraderHere = TraderFactory.GetTraderByName("Susan");
+            foreach (XmlNode questNode in quests)
+            {
+                location.QuestsAvailableHere
+                        .Add(QuestFactory.GetQuestByID(questNode.AttributeAsInt("ID")));
+            }
+        }
 
-            newWorld.AddLocation(1, 1, "Farmer's house",
-                ".",
-                "Farmer'sHouse.png");
-            newWorld.LocationAt(1, 1).TraderHere = TraderFactory.GetTraderByName("Farmer Ted");
+        private static void AddTrader(Location location, XmlNode traderHere)
+        {
+            if (traderHere == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(2, 1, "Farmer's field",
-                ".",
-                "Farmer'sField.png");
-            newWorld.LocationAt(-2, -1).AddMonster(2, 50);
-
-            newWorld.AddLocation(2, 0, "Strange hut at the outskirts",
-                ".",
-                "WitchHut.png");
-
-            newWorld.AddLocation(-2, 1, "Herbalist's hut",
-                ".",
-                "Herbalist'sHut.png");
-            newWorld.LocationAt(-2, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
-            newWorld.LocationAt(-2, 1).TraderHere = TraderFactory.GetTraderByName("Pete the Herbalist");
-
-            newWorld.AddLocation(0, 2, "Weapon blacksmith's house",
-                ".",
-                "WeaponBlacksmith'sHouse.png");
-
-            newWorld.AddLocation(-3, 1, "Herbs garden",
-                ".",
-                "HerbsGarden.png");
-            newWorld.LocationAt(-3, 1).AddMonster(1, 100);
-
-            return newWorld;
+            location.TraderHere =
+                TraderFactory.GetTraderByID(traderHere.AttributeAsInt("ID"));
         }
     }
 }
