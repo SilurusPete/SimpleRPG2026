@@ -1,7 +1,4 @@
-﻿using Engine1;
-using Engine1.EventArgs;
-using Engine1.Factories;
-using Engine1.Models;
+﻿using Engine1.EventArgs;
 using Engine1.Factories;
 using Engine1.Models;
 using System;
@@ -21,13 +18,15 @@ namespace Engine1.ViewModels
         private Trader _currentTrader;
 
         public World CurrentWorld { get; }
-        public Player CurrentPlayer {
+        public Player CurrentPlayer
+        {
 
             get { return _currentPlayer; }
             set
             {
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                 }
@@ -36,6 +35,7 @@ namespace Engine1.ViewModels
 
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnActionPerformed += OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                 }
@@ -69,6 +69,7 @@ namespace Engine1.ViewModels
             {
                 if (_currentMonster != null)
                 {
+                    _currentMonster.OnActionPerformed -= OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled -= OnCurrentMonsterKilled;
                 }
 
@@ -76,6 +77,7 @@ namespace Engine1.ViewModels
 
                 if (_currentMonster != null)
                 {
+                    _currentMonster.OnActionPerformed += OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled += OnCurrentMonsterKilled;
 
                     RaiseMessage("");
@@ -84,12 +86,6 @@ namespace Engine1.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(HasMonster));
-
-                if (CurrentMonster != null)
-                {
-                    RaiseMessage("");
-                    RaiseMessage($"You see a {CurrentMonster.Name} here!");
-                }
             }
         }
 
@@ -105,7 +101,6 @@ namespace Engine1.ViewModels
             }
         }
 
-        public Weapon CurrentWeapon { get; set; }
         public bool HasLocationToNorth =>
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
@@ -131,6 +126,12 @@ namespace Engine1.ViewModels
             {
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
+
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));
+            CurrentPlayer.LearnRecipe(RecipeFactory.RecipeByID(1));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3001));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3002));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3003));
 
             CurrentWorld = WorldFactory.CreateWorld();
 
@@ -177,13 +178,7 @@ namespace Engine1.ViewModels
                 {
                     if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
                     {
-                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
-                        {
-                            for (int i = 0; i < itemQuantity.Quantity; i++)
-                            {
-                                CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
-                            }
-                        }
+                        CurrentPlayer.RemoveItemsFromInventory(quest.ItemsToComplete);
 
                         RaiseMessage("");
                         RaiseMessage($"You completed the '{quest.Name}' quest");
@@ -199,7 +194,7 @@ namespace Engine1.ViewModels
 
                             RaiseMessage($"You receive a {rewardItem.Name}");
                             CurrentPlayer.AddItemToInventory(rewardItem);
-                            
+
                         }
 
                         questToComplete.IsCompleted = true;
@@ -243,23 +238,18 @@ namespace Engine1.ViewModels
 
         public void AttackCurrentMonster()
         {
-            if (CurrentWeapon == null)
+            if (CurrentMonster == null)
+            {
+                return;
+            }
+
+            if (CurrentPlayer.CurrentWeapon == null)
             {
                 RaiseMessage("You must select a weapon, to attack.");
                 return;
             }
 
-            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.Damage, CurrentWeapon.CriticalHitDamage);
-
-            if (damageToMonster == 0)
-            {
-                RaiseMessage($"You missed the {CurrentMonster.Name}.");
-            }
-            else
-            {
-                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage( damageToMonster );
-            }
+            CurrentPlayer.UseCurrentWeaponOn(CurrentMonster);
 
             if (CurrentMonster.IsDead)
             {
@@ -267,19 +257,48 @@ namespace Engine1.ViewModels
             }
             else
             {
-                // Let the monster attack
-                int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
+                CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
+            }
+        }
+        public void UseCurrentConsumable()
+        {
+            if (CurrentPlayer.CurrentConsumable != null)
+            {
+                CurrentPlayer.UseCurrentConsumable();
+            }
+        }
+        public void CraftItemUsing(Recipe recipe)
+        {
+            if (CurrentPlayer.HasAllTheseItems(recipe.Ingredients))
+            {
+                CurrentPlayer.RemoveItemsFromInventory(recipe.Ingredients);
 
-                if (damageToPlayer == 0)
+                foreach (ItemQuantity itemQuantity in recipe.OutputItems)
                 {
-                    RaiseMessage($"The {CurrentMonster.Name} attacks, but misses you.");
-                }
-                else
-                {
-                    RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
-                    CurrentPlayer.TakeDamage(damageToPlayer);
+                    for (int i = 0; i < itemQuantity.Quantity; i++)
+                    {
+                        GameItem outputItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+                        CurrentPlayer.AddItemToInventory(outputItem);
+                        RaiseMessage($"You craft 1 {outputItem.Name}");
+                    }
                 }
             }
+            else
+            {
+                RaiseMessage("You do not have the required ingredients:");
+                foreach (ItemQuantity itemQuantity in recipe.Ingredients)
+                {
+                    RaiseMessage($"  {itemQuantity.Quantity} {ItemFactory.ItemName(itemQuantity.ItemID)}");
+                }
+            }
+        }
+        private void OnCurrentPlayerPerformedAction(object sender, string result)
+        {
+            RaiseMessage(result);
+        }
+        private void OnCurrentMonsterPerformedAction(object sender, string result)
+        {
+            RaiseMessage(result);
         }
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)

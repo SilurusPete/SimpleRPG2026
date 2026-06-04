@@ -1,9 +1,6 @@
 ﻿using Engine1.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine1.Factories
 {
@@ -19,7 +16,7 @@ namespace Engine1.Factories
 
             itemsToComplete.Add(new ItemQuantity(9001, 5));
             rewardItems.Add(new ItemQuantity(1002, 1));
-            
+
             // Create the quest
             _quests.Add(new Quest(1,
                                   "Clear the herb garden",

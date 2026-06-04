@@ -1,5 +1,4 @@
-﻿using Engine1.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Engine1.Models
 {
@@ -11,7 +10,7 @@ namespace Engine1.Models
                                   string name, string description, string imageName)
         {
             _locations.Add(new Location(xCoordinate, yCoordinate, name, description,
-                                        $"/Engine1;component/Images/Locations/{imageName}"));
+                                        $"/Engine;component/Images/Locations/{imageName}"));
         }
 
         public Location LocationAt(int xCoordinate, int yCoordinate)

@@ -1,7 +1,4 @@
-﻿using Engine1;
-using Engine1.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -23,7 +20,7 @@ namespace Engine1.Models
                 OnPropertyChanged();
             }
         }
-        
+
         public int Exp
         {
             get { return _Exp; }
@@ -38,6 +35,7 @@ namespace Engine1.Models
         }
 
         public ObservableCollection<QuestStatus> Quests { get; }
+        public ObservableCollection<Recipe> Recipes { get; }
 
         #endregion
 
@@ -51,23 +49,20 @@ namespace Engine1.Models
             Exp = experiencePoints;
 
             Quests = new ObservableCollection<QuestStatus>();
+            Recipes = new ObservableCollection<Recipe>();
         }
 
-        public bool HasAllTheseItems(List<ItemQuantity> items)
-        {
-            foreach (ItemQuantity item in items)
-            {
-                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
         public void AddExperience(int experiencePoints)
         {
             Exp += experiencePoints;
+        }
+
+        public void LearnRecipe(Recipe recipe)
+        {
+            if (!Recipes.Any(r => r.ID == recipe.ID))
+            {
+                Recipes.Add(recipe);
+            }
         }
 
         private void SetLevelAndMaximumHitPoints()

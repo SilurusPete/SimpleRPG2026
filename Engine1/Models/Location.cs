@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Engine1.Factories;
+using System.Collections.Generic;
 using System.Linq;
-using Engine1.Factories;
 
 namespace Engine1.Models
 {
