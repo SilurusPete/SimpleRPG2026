@@ -12,6 +12,9 @@
 	</Location>
 	<Location X="-1" Y="-1" Name="Guard Camp" ImageName="Guard'sOutpost.png">
 		<Description><![CDATA[Guards training here.]]></Description>
+		<Quests>
+			<Quest ID="2"/>
+		</Quests>
 	</Location>
 	<Location X="0" Y="-1" Name="Graveyard" ImageName="Graveyard.png">
 		<Description><![CDATA[Spoky place...]]></Description>

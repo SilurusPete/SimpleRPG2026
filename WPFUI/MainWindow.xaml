@@ -19,7 +19,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="225"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -35,7 +35,13 @@
             </Grid.RowDefinitions>
 
             <!-- Player Data -->
-            <Grid Grid.Row="0" Grid.Column="0" Background="Aquamarine">
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF54F1FD" Offset="0.212"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -70,7 +76,7 @@
                     <TabItem x:Name="InventoryTabItem" Header="Inventory">
                         <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory.GroupedInventory}"
                               AutoGenerateColumns="False"
-                              HeadersVisibility="Column">
+                              HeadersVisibility="Column" Background="#FFD8FF96">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Description"
                                                 Binding="{Binding Item.Name, Mode=OneWay}"
@@ -89,11 +95,11 @@
                     <TabItem x:Name="RecipesTabItem" Header="Recipes">
                         <DataGrid ItemsSource="{Binding CurrentPlayer.Recipes}"
                                   AutoGenerateColumns="False"
-                                  HeadersVisibility="Column">
+                                  HeadersVisibility="Column" Background="#FFD8FF96">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name"
                                                     Binding="{Binding Name, Mode=OneWay}"
-                                                    Width="*">      
+                                                    Width="*">
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="DataGridCell">
                                             <Setter Property="ToolTip"
@@ -106,7 +112,7 @@
                                         <DataTemplate>
                                             <Button Click="OnClick_Craft"
                                                     Width="55"
-                                                    Content="Craft"/>   
+                                                    Content="Craft"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -116,7 +122,7 @@
                 </TabControl>
             </Grid>
         </Grid>
-        
+
         <!-- Game Data -->
         <Grid Grid.Row="1" Grid.Column="1" Background="Beige">
             <Grid.RowDefinitions>
@@ -213,18 +219,18 @@
             </Border>
         </Grid>
         <!--Quest-->
-        <Grid Grid.Row="2" Grid.Column="0" Background="BurlyWood">
+        <Grid Grid.Row="2" Grid.Column="0" Background="#FFAD8E66">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Quests" Background="BurlyWood"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Quests" Background="#FFFFF052"/>
 
             <Grid Grid.Row="1" Grid.Column="0" Background="BurlyWood">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
                           AutoGenerateColumns="False"
-                          HeadersVisibility="Column">
+                          HeadersVisibility="Column" Background="#FFFFEEA1">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name"
                                             Binding="{Binding PlayerQuest.Name, Mode=OneWay}"
@@ -242,12 +248,12 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            
+
         </Grid>
-        
-        
+
+
         <!-- Controls -->
-        <Grid Grid.Row="2" Grid.Column="1" Background="Lavender">
+        <Grid Grid.Row="2" Grid.Column="1" Background="#FF6363FF">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

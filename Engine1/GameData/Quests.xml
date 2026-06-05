@@ -10,4 +10,14 @@
 			<Item ID="1002" Quantity="1"/>
 		</RewardItems>
 	</Quest>
+	<Quest ID="2" RewardExperiencePoints="25" RewardGold="50">
+		<Name><![CDATA[Clear clean path in the forest.]]></Name>
+		<Description><![CDATA[Defeat the spiders in the forest.]]></Description>
+		<ItemsToComplete>
+			<Item ID="9005" Quantity="3"/>
+		</ItemsToComplete>
+		<RewardItems>
+			<Item ID="1003" Quantity="1"/>
+		</RewardItems>
+	</Quest>
 </Quests>
