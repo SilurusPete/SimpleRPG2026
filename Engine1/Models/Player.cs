@@ -1,87 +1,82 @@
-﻿using Engine;
-using Engine.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
-namespace Engine1.Models
+namespace Engine.Models
 {
-    public class Player : BaseNotificationClass
+    public class Player : LivingEntity
     {
-        private string _Nickname;
-        private string _CharacterClass;
-        private int _HP;
-        private int _Exp;
-        private int _Level;
-        private int _Gold;
+        #region Properties
 
-        public string Nickname
-        {
-            get { return _Nickname; }
-            set
-            {
-                _Nickname = value;
-                OnPropertyChanged(nameof(Nickname));
-            }
-        }
+        private string _CharacterClass;
+        private int _Exp;
+
         public string CharacterClass
         {
             get { return _CharacterClass; }
             set
             {
                 _CharacterClass = value;
-                OnPropertyChanged(nameof(CharacterClass));
+                OnPropertyChanged();
             }
         }
-        public int HP
-        {
-            get { return _HP; }
-            set
-            {
-                _HP = value;
-                OnPropertyChanged(nameof(HP));
-            }
-        }
+
         public int Exp
         {
             get { return _Exp; }
-            set 
+            private set
             {
                 _Exp = value;
-                OnPropertyChanged(nameof(Exp));
-            }
-        }
-        public int Level
-        {
-            get { return _Level; }
-            set
-            {
-                _Level = value;
-                OnPropertyChanged(nameof(Level));
-            }
-        }
-        public int Gold
-        {
-            get { return _Gold; }
-            set
-            {
-                _Gold = value;
-                OnPropertyChanged(nameof(Gold));
+
+                OnPropertyChanged();
+
+                SetLevelAndMaximumHitPoints();
             }
         }
 
-        public ObservableCollection<GameItem> Inventory { get; set; }
-        public ObservableCollection<QuestStatus> Quests { get; set; }
+        public ObservableCollection<QuestStatus> Quests { get; }
+        public ObservableCollection<Recipe> Recipes { get; }
 
-        public Player()
+        #endregion
+
+        public event EventHandler OnLeveledUp;
+
+        public Player(string name, string characterClass, int experiencePoints,
+                      int maximumHitPoints, int currentHitPoints, int gold) :
+            base(name, maximumHitPoints, currentHitPoints, gold)
         {
-            Inventory = new ObservableCollection<GameItem>();
+            CharacterClass = characterClass;
+            Exp = experiencePoints;
+
             Quests = new ObservableCollection<QuestStatus>();
+            Recipes = new ObservableCollection<Recipe>();
+        }
+
+        public void AddExperience(int experiencePoints)
+        {
+            Exp += experiencePoints;
+        }
+
+        public void LearnRecipe(Recipe recipe)
+        {
+            if (!Recipes.Any(r => r.ID == recipe.ID))
+            {
+                Recipes.Add(recipe);
+            }
+        }
+
+        private void SetLevelAndMaximumHitPoints()
+        {
+            int originalLevel = Level;
+
+            Level = (Exp / 100) + 1;
+
+            if (Level != originalLevel)
+            {
+                MaximumHitPoints = Level * 10;
+
+                OnLeveledUp?.Invoke(this, System.EventArgs.Empty);
+            }
         }
     }
 }

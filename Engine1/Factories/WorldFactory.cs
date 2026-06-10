@@ -1,89 +1,99 @@
-﻿using Engine.Factories;
-using Engine1.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Engine.Models;
+using Engine.Shared;
+using System.IO;
+using System.Xml;
 
-namespace Engine1.Factories
+namespace Engine.Factories
 {
     internal static class WorldFactory
     {
+        private const string GAME_DATA_FILENAME = ".\\GameData\\Locations.xml";
+
         internal static World CreateWorld()
         {
-            World newWorld = new World();
+            World world = new World();
+            if (File.Exists(GAME_DATA_FILENAME))
+            {
+                XmlDocument data = new XmlDocument();
+                data.LoadXml(File.ReadAllText(GAME_DATA_FILENAME));
 
-            newWorld.AddLocation(-3, -1, "Bandit Camp",
-                ".",
-                "/Engine;component/Images/Locations/BanditCamp.png");
+                string rootImagePath =
+                    data.SelectSingleNode("/Locations")
+                        .AttributeAsString("RootImagePath");
 
-            newWorld.AddLocation(-2, -1, "Meadows",
-                ".",
-                "/Engine;component/Images/Locations/Meadows.png");
+                LoadLocationsFromNodes(world,
+                                       rootImagePath,
+                                       data.SelectNodes("/Locations/Location"));
+            }
+            else
+            {
+                throw new FileNotFoundException($"Missing data file: {GAME_DATA_FILENAME}");
+            }
 
-            newWorld.AddLocation(-1, -1, "Guard Camp",
-                ".",
-                "/Engine;component/Images/Locations/Guard'sOutpost.png");
+            return world;
+        }
 
-            newWorld.AddLocation(0, -1, "Graveyard",
-                ".",
-                "/Engine;component/Images/Locations/Graveyard.png");
+        private static void LoadLocationsFromNodes(World world, string rootImagePath, XmlNodeList nodes)
+        {
+            if (nodes == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(1, -1, "Dense forest with a barely visible path in sight",
-                ".",
-                "/Engine;component/Images/Locations/BarelyVisiblePath.png");
+            foreach (XmlNode node in nodes)
+            {
+                Location location =
+                    new Location(node.AttributeAsInt("X"),
+                                 node.AttributeAsInt("Y"),
+                                 node.AttributeAsString("Name"),
+                                 node.SelectSingleNode("./Description")?.InnerText ?? "",
+                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}");
 
-            newWorld.AddLocation(-1, 0, "Some local houses",
-                ".",
-                "/Engine;component/Images/Locations/InhabitedHouses.png");
+                AddMonsters(location, node.SelectNodes("./Monsters/Monster"));
+                AddQuests(location, node.SelectNodes("./Quests/Quest"));
+                AddTrader(location, node.SelectSingleNode("./Trader"));
 
-            newWorld.AddLocation(0, 0, "Church",
-                "The place you first appeared at with a quest in mind to bring peace in this world",
-                "/Engine;component/Images/Locations/Church.png");
+                world.AddLocation(location);
+            }
+        }
 
-            newWorld.AddLocation(2, 2, "Barn",
-                ".",
-                "/Engine;component/Images/Locations/Barn.png");
+        private static void AddMonsters(Location location, XmlNodeList monsters)
+        {
+            if (monsters == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(2, -1, "Weird clearing in the forest",
-                ".",
-                "/Engine;component/Images/Locations/Cauldron.png");
+            foreach (XmlNode monsterNode in monsters)
+            {
+                location.AddMonster(monsterNode.AttributeAsInt("ID"),
+                                    monsterNode.AttributeAsInt("Percent"));
+            }
+        }
 
-            newWorld.AddLocation(-1, 1, "Town Square",
-                ".",
-                "/Engine;component/Images/Locations/TownSquare.png");
+        private static void AddQuests(Location location, XmlNodeList quests)
+        {
+            if (quests == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(0, 1, "Market",
-                ".",
-                "/Engine;component/Images/Locations/Marketplace.png");
+            foreach (XmlNode questNode in quests)
+            {
+                location.QuestsAvailableHere
+                        .Add(QuestFactory.GetQuestByID(questNode.AttributeAsInt("ID")));
+            }
+        }
 
-            newWorld.AddLocation(1, 1, "Farmer's house",
-                ".",
-                "/Engine;component/Images/Locations/Farmer'sHouse.png");
+        private static void AddTrader(Location location, XmlNode traderHere)
+        {
+            if (traderHere == null)
+            {
+                return;
+            }
 
-            newWorld.AddLocation(2, 1, "Farmer's field",
-                ".",
-                "/Engine;component/Images/Locations/Farmer'sField.png");
-
-            newWorld.AddLocation(2, 0, "Strange hut at the outskirts",
-                ".",
-                "/Engine;component/Images/Locations/WitchHut.png");
-
-            newWorld.AddLocation(-2, 1, "Herbalist's hut",
-                ".",
-                "/Engine;component/Images/Locations/Herbalist'sHut.png");
-            newWorld.LocationAt(-2, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
-
-            newWorld.AddLocation(0, 2, "Weapon blacksmith's house",
-                ".",
-                "/Engine;component/Images/Locations/WeaponBlacksmith'sHouse.png");
-
-            newWorld.AddLocation(-3, 1, "Herbs garden",
-                ".",
-                "/Engine;component/Images/Locations/HerbsGarden.png");
-
-            return newWorld;
+            location.TraderHere =
+                TraderFactory.GetTraderByID(traderHere.AttributeAsInt("ID"));
         }
     }
 }

@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.Models
 {
     public class Quest
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public int ID { get; }
+        public string Name { get; }
+        public string Description { get; }
 
-        public List<ItemQuantity> ItemsToComplete { get; set; }
+        public List<ItemQuantity> ItemsToComplete { get; }
 
-        public int RewardExp { get; set; }
-        public int RewardGold { get; set; }
-        public List<ItemQuantity> RewardItems { get; set; }
+        public int RewardExp { get; }
+        public int RewardGold { get; }
+        public List<ItemQuantity> RewardItems { get; }
+
+        public string ToolTipContents =>
+           Description + Environment.NewLine + Environment.NewLine +
+           "Items to complete the quest" + Environment.NewLine +
+           "===========================" + Environment.NewLine +
+           string.Join(Environment.NewLine, ItemsToComplete.Select(i => i.QuantityItemDescription)) +
+           Environment.NewLine + Environment.NewLine +
+           "Rewards\r\n" +
+           "===========================" + Environment.NewLine +
+           $"{RewardExp} experience points" + Environment.NewLine +
+           $"{RewardGold} gold pieces" + Environment.NewLine +
+           string.Join(Environment.NewLine, RewardItems.Select(i => i.QuantityItemDescription));
 
         public Quest(int id, string name, string description, List<ItemQuantity> itemsToComplete,
                      int rewardExp, int rewardGold, List<ItemQuantity> rewardItems)
