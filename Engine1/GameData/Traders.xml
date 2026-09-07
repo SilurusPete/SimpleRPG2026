@@ -7,6 +7,7 @@
 			<Item ID="3001" Quantity="2"/>
 			<Item ID="3002" Quantity="4"/>
 			<Item ID="3003" Quantity="1"/>
+			<Item ID="3004" Quantity="1"/>
 		</InventoryItems>
 	</Trader>
 	<Trader ID="2">
@@ -28,6 +29,13 @@
 		<InventoryItems>
 			<Item ID="1003" Quantity="3"/>
 			<Item ID="1002" Quantity="1"/>
+		</InventoryItems>
+	</Trader>
+	<Trader ID="5">
+		<Name><![CDATA[Boris]]></Name>
+		<InventoryItems>
+			<Item ID="3004" Quantity="3"/>
+			<Item ID="1002" Quantity="2"/>
 		</InventoryItems>
 	</Trader>
 </Traders>

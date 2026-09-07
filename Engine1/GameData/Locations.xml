@@ -12,6 +12,7 @@
 	</Location>
 	<Location X="-1" Y="-1" Name="Guard Camp" ImageName="Guard'sOutpost.png">
 		<Description><![CDATA[Guards training here.]]></Description>
+		<Trader ID="5"/>
 		<Quests>
 			<Quest ID="2"/>
 		</Quests>

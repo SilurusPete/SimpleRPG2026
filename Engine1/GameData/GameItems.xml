@@ -15,6 +15,7 @@
 		<MiscellaneousItem ID="3001" Name="Oats" Price="1"/>
 		<MiscellaneousItem ID="3002" Name="Honey" Price="2"/>
 		<MiscellaneousItem ID="3003" Name="Raisins" Price="2"/>
+		<MiscellaneousItem ID="3004" Name="Grindstone" Price="3"/>
 		<MiscellaneousItem ID="9001" Name="Snake fang" Price="1"/>
 		<MiscellaneousItem ID="9002" Name="Snakeskin" Price="2"/>
 		<MiscellaneousItem ID="9003" Name="Rat tail" Price="1"/>
