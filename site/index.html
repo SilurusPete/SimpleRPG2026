@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimpleRPG2026</title>
+  <style>
+    /* ----- совсем простые стили ----- */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: white;
+      color: black;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* шапка */
+    header {
+      background: #eee;
+      border-bottom: 2px solid #999;
+      padding: 12px 0;
+    }
+
+    header .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .logo span {
+      color: #0066cc;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 6px 14px;
+      color: #003366;
+      text-decoration: none;
+      font-weight: normal;
+      border: 1px solid transparent;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    nav a.active {
+      font-weight: bold;
+      text-decoration: underline;
+      background: #ddd;
+      border-color: #aaa;
+    }
+
+    /* основной контент */
+    main {
+      padding: 30px 0 40px;
+    }
+
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    .sub {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 20px;
+      border-left: 3px solid #0066cc;
+      padding-left: 12px;
+    }
+
+    .block {
+      margin-bottom: 25px;
+      padding: 12px 0;
+      border-bottom: 1px solid #ccc;
+    }
+    .block:last-child {
+      border-bottom: none;
+    }
+
+    .block h2 {
+      font-size: 1.5rem;
+      margin: 0 0 8px 0;
+      font-weight: bold;
+    }
+    .block h3 {
+      font-size: 1.2rem;
+      margin: 14px 0 6px 0;
+      font-weight: bold;
+    }
+    p {
+      margin: 0 0 8px 0;
+    }
+    ul, ol {
+      margin: 4px 0 10px 20px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+
+    /* участники */
+    .participant-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 6px;
+    }
+
+    .participant-card {
+      border: 1px solid #999;
+      padding: 14px 18px;
+      background: #f9f9f9;
+    }
+    .participant-card h3 {
+      margin: 0 0 2px 0;
+      font-size: 1.3rem;
+    }
+    .participant-card .role {
+      font-weight: bold;
+      color: #0066cc;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    .participant-card ul {
+      margin: 2px 0 0 18px;
+    }
+
+    /* посты прогресса */
+    .post {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+    }
+    .post:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .post .date {
+      font-size: 0.8rem;
+      color: #444;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .post h3 {
+      margin: 2px 0 6px 0;
+      font-size: 1.3rem;
+    }
+
+    /* ресурсы */
+    .resource-list {
+      list-style: none;
+      padding: 0;
+    }
+    .resource-list li {
+      border: 1px solid #ccc;
+      padding: 10px 16px;
+      margin-bottom: 8px;
+      background: #fafafa;
+    }
+    .resource-list li a {
+      font-weight: bold;
+      color: #003366;
+    }
+    .resource-list li .desc {
+      display: block;
+      font-size: 0.9rem;
+      color: #333;
+      margin-top: 2px;
+    }
+
+    /* адаптив */
+    @media (max-width: 700px) {
+      header .container {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+      }
+      .participant-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header>
+    <div class="container">
+      <div class="logo">Simple<span>RPG</span>2026</div>
+      <nav>
+        <a class="active" data-page="home">Главная</a>
+        <a data-page="about">О проекте</a>
+        <a data-page="participants">Участники</a>
+        <a data-page="progress">Прогресс</a>
+        <a data-page="resources">Ресурсы</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ БЛОК -->
+  <main>
+    <div class="container">
+
+      <!-- ===== ГЛАВНАЯ ===== -->
+      <div id="page-home" class="page active">
+        <h1>SimpleRPG2026</h1>
+        <div class="sub">Ролевое приложение на C# и WPF</div>
+
+        <div class="block">
+          <h2>Аннотация</h2>
+          <p><strong>SimpleRPG2026</strong> — учебный проект, сделанный в рамках проектной практики. Это игра, где можно управлять героем, ходить по 17 локациям, бить врагов, торговать, выполнять квесты и прокачиваться.</p>
+          <p>Написано на <strong>C#</strong> с использованием <strong>WPF</strong> в Visual Studio 2026. Реализованы: карта, боевая система, инвентарь с крафтом, квесты, торговля, уровни, смерть и возрождение.</p>
+        </div>
+
+        <div class="block">
+          <h2>Кратко о механиках</h2>
+          <ul>
+            <li><strong>17 локаций</strong> — перемещение по кнопкам направлений</li>
+            <li><strong>3 типа врагов</strong> — поочерёдный бой, можно лечиться</li>
+            <li><strong>Инвентарь</strong> — предметы, количество, стоимость, рецепты</li>
+            <li><strong>Квесты</strong> — два примера с наградами (опыт, золото, предметы)</li>
+            <li><strong>Торговля</strong> — покупка и продажа у торговцев</li>
+            <li><strong>Прокачка</strong> — опыт → уровень → максимум здоровья</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h2>Технологии</h2>
+          <ul>
+            <li>C# (.NET)</li>
+            <li>WPF (Windows Presentation Foundation)</li>
+            <li>Microsoft Visual Studio 2026</li>
+            <li>MVVM, привязка данных</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== О ПРОЕКТЕ ===== -->
+      <div id="page-about" class="page">
+        <h1>О проекте</h1>
+        <div class="sub">Цели, задачи и что сделано</div>
+
+        <div class="block">
+          <h2>Цель</h2>
+          <p>Разработать простое ролевое приложение на C# с WPF, которое включает: перемещение по карте, бои, торговлю, инвентарь, квесты и развитие персонажа.</p>
+        </div>
+
+        <div class="block">
+          <h2>Задачи (10 пунктов)</h2>
+          <ol>
+            <li>Сделать интерфейс на WPF.</li>
+            <li>Карта из 17 локаций.</li>
+            <li>Характеристики и прокачка персонажа.</li>
+            <li>Инвентарь и крафт по рецептам.</li>
+            <li>Система квестов.</li>
+            <li>Боевые столкновения.</li>
+            <li>Торговля с NPC.</li>
+            <li>Получение опыта, золота, предметов.</li>
+            <li>Смерть и возрождение.</li>
+            <li>Динамическое управление (кнопки появляются/исчезают).</li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <h2>Реализованные системы</h2>
+          <ul>
+            <li><strong>UI</strong> — разделы: персонаж, инвентарь, квесты, события, локация, управление.</li>
+            <li><strong>Карта</strong> — 17 локаций с названиями, описаниями, картинками; переходы по сторонам света.</li>
+            <li><strong>Персонаж</strong> — Pete, класс Fighter. Здоровье, золото, опыт, уровень. Макс. здоровье зависит от уровня.</li>
+            <li><strong>Инвентарь</strong> — предметы с количеством и ценой. Можно получать, покупать, крафтить, использовать (лечение).</li>
+            <li><strong>Рецепты</strong> — создание предметов из ресурсов.</li>
+            <li><strong>Квесты</strong> — «Clear the herb garden» и «Clear clean path in the forest» с наградами.</li>
+            <li><strong>Бой</strong> — по очереди, можно лечиться, победа даёт награды.</li>
+            <li><strong>Торговля</strong> — окно с инвентарём игрока и товарами торговца.</li>
+            <li><strong>Смерть</strong> — при 0 HP возврат на старт с полным здоровьем.</li>
+            <li><strong>Логи</strong> — все события пишутся в центральную область.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== УЧАСТНИКИ ===== -->
+      <div id="page-participants" class="page">
+        <h1>Участники</h1>
+        <div class="sub">Кто что делал</div>
+
+        <div class="participant-grid">
+          <div class="participant-card">
+            <h3>Баранов Пётр</h3>
+            <div class="role">Разработчик</div>
+            <ul>
+              <li>Player Class, ViewModels, Player Stats, Locations</li>
+              <li>Создание сайта и оформление markdown-файлов</li>
+            </ul>
+          </div>
+          <div class="participant-card">
+            <h3>Рябчук Иван</h3>
+            <div class="role">Разработчик</div>
+            <ul>
+              <li>QuestUI, Enemy, Combat, Traders, Inventory</li>
+              <li>Тестирование и доработка предыдущих модулей</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="block" style="border-top:1px solid #ccc; padding-top:12px;">
+          <p>Оба участника помогали друг другу с интеграцией и отладкой.</p>
+        </div>
+      </div>
+
+      <!-- ===== ПРОГРЕСС ===== -->
+      <div id="page-progress" class="page">
+        <h1>Прогресс работы</h1>
+        <div class="sub">Три этапа разработки</div>
+
+        <div class="block">
+          <div class="post">
+            <div class="date">10 марта 2026</div>
+            <h3>Старт: интерфейс и карта</h3>
+            <p>Сделали макет окна: разделы для характеристик, инвентаря, квестов, событий, локации и кнопок. Нарисовали карту из 17 локаций с переходами по направлениям. Кнопки перемещения появляются в зависимости от локации.</p>
+          </div>
+          <div class="post">
+            <div class="date">15 апреля 2026</div>
+            <h3>Основные механики: бой, инвентарь, квесты, торговля</h3>
+            <p>Добавили боевую систему с тремя врагами, возможность лечения в бою. Реализовали инвентарь с рецептами, два квеста с наградами, торговлю с NPC. Награды: опыт, золото, предметы.</p>
+          </div>
+          <div class="post">
+            <div class="date">27 мая 2026</div>
+            <h3>Тестирование и сдача</h3>
+            <p>Проверили все сценарии: переходы, бой, использование предметов, квесты, покупка/продажа, смерть и возрождение. Исправили ошибки, залили на GitHub, подготовили отчёт и сайт.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== РЕСУРСЫ ===== -->
+      <div id="page-resources" class="page">
+        <h1>Полезные материалы</h1>
+        <div class="sub">Ссылки, которые использовали</div>
+
+        <div class="block">
+          <ul class="resource-list">
+            <li>
+              <a href="https://learn.microsoft.com/dotnet/csharp/" target="_blank">Microsoft. C# documentation</a>
+              <span class="desc">Официальная документация по C# (дата обращения: 06.03.2026).</span>
+            </li>
+            <li>
+              <a href="https://learn.microsoft.com/dotnet/desktop/wpf/" target="_blank">Microsoft. WPF documentation</a>
+              <span class="desc">Документация по WPF (06.03.2026).</span>
+            </li>
+            <li>
+              <a href="https://soscsrpg.com/" target="_blank">Scott Lilly. SOSCSRPG – учебный проект по C#/WPF RPG</a>
+              <span class="desc">Открытый проект и уроки по созданию RPG на C# и WPF (дата обращения: 16.04.2026).</span>
+            </li>
+            <li>
+              <a href="https://soscsrpg.com/" target="_blank">Scott Lilly. Уроки по C#/WPF RPG</a>
+              <span class="desc">Учебные материалы и примеры кода (дата обращения: 16.04.2026).</span>
+            </li>
+            <li>
+              <a href="https://github.com/SilurusPete/SimpleRPG2026" target="_blank">SimpleRPG2026 на GitHub</a>
+              <span class="desc">Исходный код проекта (дата обращения: 27.05.2026).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ (минимум JS) -->
+  <script>
+    (function() {
+      var links = document.querySelectorAll('nav a[data-page]');
+      var pages = {
+        home: document.getElementById('page-home'),
+        about: document.getElementById('page-about'),
+        participants: document.getElementById('page-participants'),
+        progress: document.getElementById('page-progress'),
+        resources: document.getElementById('page-resources')
+      };
+
+      function setPage(id) {
+        for (var p in pages) {
+          pages[p].classList.remove('active');
+        }
+        if (pages[id]) pages[id].classList.add('active');
+
+        for (var i = 0; i < links.length; i++) {
+          links[i].classList.remove('active');
+          if (links[i].getAttribute('data-page') === id) {
+            links[i].classList.add('active');
+          }
+        }
+        if (history.pushState) {
+          history.pushState({ page: id }, '', '#' + id);
+        }
+      }
+
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function(e) {
+          e.preventDefault();
+          var id = this.getAttribute('data-page');
+          if (id) setPage(id);
+        });
+      }
+
+      var hash = window.location.hash.replace('#', '');
+      if (hash && pages[hash]) {
+        setPage(hash);
+      } else {
+        setPage('home');
+      }
+
+      window.addEventListener('hashchange', function() {
+        var h = window.location.hash.replace('#', '');
+        if (h && pages[h]) setPage(h);
+      });
+    })();
+  </script>
+
+</body>
+</html>
