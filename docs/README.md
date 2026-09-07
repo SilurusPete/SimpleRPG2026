@@ -28,17 +28,13 @@
 ├── docs/
 │   └── readme.md
 ├── reports/
+│   ├── practice_report_template.docx
+│   ├── report_Baranov.docx
 │   ├── report_Baranov.pdf
+│   ├── report_Ryabchuk.docx
 |   └── report_Ryabchuk.pdf
 ├── site/
-│   ├── pages/
-|   |   |── index.html
-|   |   |── about.html
-|   |   |── journal.html
-|   |   |── team.html
-|   |   └── resources.html
-│   ├── css/
-│   │   └── style.css
+|   └── index.html
 ├── src/
 │   ├── Engine1
 |   |   └── ...
